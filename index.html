@@ -13,11 +13,18 @@
         }
         
         body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+            color: #f1f5f9;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0a;
-            color: #e1e5e9;
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        body.home-view {
+            overflow: hidden;
+            height: 100vh;
         }
 
         /* Animated Background */
@@ -58,21 +65,40 @@
         }
 
         .nav-item {
-            padding: 0.5rem 1rem;
             background: transparent;
-            border: none;
+            border: 1px solid rgba(102, 126, 234, 0.3);
             color: #9ca3af;
+            padding: 0.8rem 1.5rem;
             border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
             font-size: 0.9rem;
             font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
         }
 
-        .nav-item:hover, .nav-item.active {
+        .nav-item:hover,
+        .nav-item.active {
             background: rgba(102, 126, 234, 0.2);
-            color: #667eea;
+            color: #f1f5f9;
+            border-color: rgba(102, 126, 234, 0.5);
             transform: translateY(-2px);
+        }
+
+        /* Pulse animation for Projects button on home view */
+        body.home-view .nav-item[onclick*="timeline"]:not(.active) {
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { 
+                border-color: rgba(102, 126, 234, 0.3);
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.2);
+            }
+            50% { 
+                border-color: rgba(102, 126, 234, 0.6);
+                box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            }
         }
 
         /* Loading Animation */
@@ -122,11 +148,12 @@
             padding: 2rem;
             position: relative;
             z-index: 2;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .header h1 {
@@ -482,6 +509,7 @@
 
         /* Contact Modal */
         .contact-modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -489,13 +517,10 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
+            z-index: 10000;
             justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
         }
 
         .contact-modal.active {
@@ -1707,6 +1732,9 @@
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
+            // Set initial home view state
+            document.body.classList.add('home-view');
+            
             // Initialize particles
             resizeCanvas();
             initParticles();
@@ -1785,6 +1813,7 @@
             const timelineSection = document.getElementById('timeline');
             const experienceSection = document.getElementById('experience');
             const filterBar = document.querySelector('.filter-bar');
+            const body = document.body;
             
             // Reset all sections visibility
             timelineSection.style.display = 'none';
@@ -1792,19 +1821,22 @@
             filterBar.style.display = 'none';
             
             if (sectionId === 'header') {
-                // Home tab - show only header content, hide timeline and experience
+                // Home tab - show only header content, disable scrolling
+                body.classList.add('home-view');
                 document.getElementById('header').scrollIntoView({ 
                     behavior: 'smooth' 
                 });
             } else if (sectionId === 'timeline') {
-                // Projects tab - show timeline and filter bar
+                // Projects tab - show timeline, enable scrolling
+                body.classList.remove('home-view');
                 timelineSection.style.display = 'block';
                 filterBar.style.display = 'flex';
                 timelineSection.scrollIntoView({ 
                     behavior: 'smooth' 
                 });
             } else if (sectionId === 'experience') {
-                // Experience tab - show experience section
+                // Experience tab - show experience, enable scrolling
+                body.classList.remove('home-view');
                 experienceSection.style.display = 'block';
                 experienceSection.scrollIntoView({ 
                     behavior: 'smooth' 
@@ -1820,11 +1852,31 @@
 
         // Contact Modal Functions
         function openContact() {
-            document.getElementById('contactModal').classList.add('active');
+            document.body.classList.remove('home-view');
+            document.getElementById('contactModal').style.display = 'flex';
+            
+            // Update active nav item for contact
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            // Find and activate contact button
+            const contactBtn = document.querySelector('.nav-item[onclick="openContact()"]');
+            if (contactBtn) contactBtn.classList.add('active');
         }
 
         function closeContact() {
-            document.getElementById('contactModal').classList.remove('active');
+            document.getElementById('contactModal').style.display = 'none';
+            
+            // Return to home view if no other section is active
+            const activeNavItem = document.querySelector('.nav-item.active');
+            if (!activeNavItem || activeNavItem.textContent === 'Contact') {
+                document.body.classList.add('home-view');
+                // Reset to home button
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelector('.nav-item[onclick*="header"]').classList.add('active');
+            }
         }
 
         // Close modal on outside click
