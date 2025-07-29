@@ -576,33 +576,6 @@
         .timeline-item.hidden {
             display: none;
         }
-
-        /* Sound indicator */
-        .sound-toggle {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: rgba(26, 26, 26, 0.9);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #667eea;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        .sound-toggle:hover {
-            background: rgba(102, 126, 234, 0.2);
-        }
-
-        .sound-toggle.muted {
-            opacity: 0.5;
-        }
         
         .project-header {
             display: flex;
@@ -814,32 +787,27 @@
     <!-- Mouse Glow Effect -->
     <div class="mouse-glow" id="mouseGlow"></div>
 
-    <!-- Sound Toggle -->
-    <div class="sound-toggle" id="soundToggle" onclick="toggleSound()">
-        <span id="soundIcon">🔊</span>
-    </div>
-
     <!-- Contact Modal -->
     <div class="contact-modal" id="contactModal">
         <div class="contact-content">
             <button class="close-modal" onclick="closeContact()">&times;</button>
             <h2 class="contact-title">Let's Connect!</h2>
             <div class="contact-links">
-                <a href="mailto:your-email@example.com" class="contact-link">
+                <a href="mailto:tristan.rajnath@yahoo.com" class="contact-link">
                     <span>📧</span>
-                    Email
+                    Email Me
                 </a>
-                <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">
+                <a href="https://linkedin.com/in/tristan-rajnath" class="contact-link" target="_blank">
                     <span>💼</span>
                     LinkedIn
                 </a>
-                <a href="https://github.com/yourusername" class="contact-link" target="_blank">
+                <a href="https://github.com/tlt2627" class="contact-link" target="_blank">
                     <span>🐱</span>
                     GitHub
                 </a>
             </div>
             <p style="color: #9ca3af; font-size: 0.9rem;">
-                Always excited to discuss new opportunities and innovative projects!
+                Full Stack AI Developer passionate about creating innovative solutions with cutting-edge technology. Always excited to discuss new opportunities!
             </p>
         </div>
     </div>
@@ -858,27 +826,27 @@
     <div class="skills-badge">
         <div class="skills-title">Tech Stack</div>
         <div class="skill-item">
-            <span>React</span>
+            <span>React/Next.js</span>
             <div class="skill-bar"><div class="skill-progress" style="width: 95%"></div></div>
+        </div>
+        <div class="skill-item">
+            <span>AI/ML/LLMs</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 92%"></div></div>
         </div>
         <div class="skill-item">
             <span>TypeScript</span>
             <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
         </div>
         <div class="skill-item">
-            <span>AI/ML</span>
-            <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
-        </div>
-        <div class="skill-item">
-            <span>3D/WebGL</span>
-            <div class="skill-bar"><div class="skill-progress" style="width: 80%"></div></div>
+            <span>Python/Rust</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 88%"></div></div>
         </div>
     </div>
 
     <div class="container">
         <div class="header" id="header">
-            <h1><span class="typewriter">Development Journey</span></h1>
-            <p>A timeline showcasing the evolution of my technical skills and project complexity over time</p>
+            <h1><span class="typewriter">Tristan Rajnath</span></h1>
+            <p>Full Stack AI Developer • Building the Future with Intelligent Applications</p>
         </div>
         
         <!-- Filter Bar -->
@@ -1129,56 +1097,14 @@
     </div>
 
     <script>
-        // Global Variables
-        let soundEnabled = true;
-        
-        // Audio Context for Sound Effects
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function playSound(frequency = 800, duration = 100, type = 'sine') {
-            if (!soundEnabled) return;
-            
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.value = frequency;
-            oscillator.type = type;
-            
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration / 1000);
-        }
-
-        // Sound Toggle
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const icon = document.getElementById('soundIcon');
-            const toggle = document.getElementById('soundToggle');
-            
-            if (soundEnabled) {
-                icon.textContent = '🔊';
-                toggle.classList.remove('muted');
-                playSound(600, 150);
-            } else {
-                icon.textContent = '🔇';
-                toggle.classList.add('muted');
-            }
-        }
-
         // Loading Screen
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
-                playSound(800, 200);
             }, 1000);
         });
 
-        // Particles Animation (existing code)
+        // Particles Animation
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -1299,7 +1225,6 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animate');
-                    playSound(400 + Math.random() * 400, 100);
                 }
             });
         }, observerOptions);
@@ -1319,19 +1244,15 @@
                 item.classList.remove('active');
             });
             event.target.classList.add('active');
-            
-            playSound(600, 100);
         }
 
         // Contact Modal Functions
         function openContact() {
             document.getElementById('contactModal').classList.add('active');
-            playSound(800, 150);
         }
 
         function closeContact() {
             document.getElementById('contactModal').classList.remove('active');
-            playSound(400, 100);
         }
 
         // Close modal on outside click
@@ -1360,12 +1281,10 @@
                         item.classList.add('hidden');
                     }
                 });
-                
-                playSound(700, 120);
             });
         });
 
-        // Enhanced project card functionality with sound
+        // Enhanced project card functionality
         function toggleExpand(card) {
             const expandedContent = card.querySelector('.expanded-content');
             const isActive = expandedContent.classList.contains('active');
@@ -1387,12 +1306,9 @@
                 
                 // Add sparkle effect
                 createSparkles(node);
-                playSound(900, 200);
                 
                 // Animate counters
                 setTimeout(() => animateCounters(card), 300);
-            } else {
-                playSound(500, 100);
             }
         }
 
@@ -1471,20 +1387,6 @@
                 e.stopPropagation();
                 const card = node.parentElement.querySelector('.project-card');
                 toggleExpand(card);
-            });
-        });
-
-        // Add sound effects to tech tags
-        document.querySelectorAll('.tech-tag').forEach(tag => {
-            tag.addEventListener('mouseenter', () => {
-                playSound(1000 + Math.random() * 200, 50);
-            });
-        });
-
-        // Add sound effects to buttons
-        document.querySelectorAll('.action-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                playSound(800, 150);
             });
         });
     </script>
