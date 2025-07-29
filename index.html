@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Developer Timeline Portfolio</title>
-    <!-- Cache refresh: Status indicators removed -->
+    <!-- Cache refresh: Updated Grammarly link to live deployment -->
     <style>
         * {
             margin: 0;
@@ -17,27 +17,122 @@
             background: #0a0a0a;
             color: #e1e5e9;
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .mouse-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Enhanced Navigation */
+        .nav-menu {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .nav-item {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            color: #9ca3af;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        /* Loading Animation */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(102, 126, 234, 0.3);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            position: relative;
+            z-index: 2;
         }
         
         .header {
             text-align: center;
             margin-bottom: 4rem;
+            padding-top: 4rem;
         }
         
         .header h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
         }
         
         .header p {
@@ -45,6 +140,58 @@
             color: #9ca3af;
             max-width: 600px;
             margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.7s forwards;
+        }
+
+        /* Skills Badge */
+        .skills-badge {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            z-index: 100;
+            max-width: 200px;
+        }
+
+        .skills-title {
+            font-size: 0.8rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.3rem;
+            font-size: 0.75rem;
+        }
+
+        .skill-bar {
+            width: 60px;
+            height: 3px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+            animation: skillLoad 2s ease forwards;
+        }
+
+        @keyframes skillLoad {
+            from { width: 0; }
         }
         
         .timeline {
@@ -61,6 +208,12 @@
             width: 2px;
             background: linear-gradient(to bottom, transparent, #667eea, #764ba2, transparent);
             transform: translateX(-50%);
+            animation: timelineGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes timelineGlow {
+            0% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.8), 0 0 30px rgba(102, 126, 234, 0.4); }
         }
         
         .timeline-item {
@@ -68,14 +221,11 @@
             margin-bottom: 4rem;
             opacity: 0;
             transform: translateY(50px);
+        }
+
+        .timeline-item.animate {
             animation: fadeInUp 0.8s ease forwards;
         }
-        
-        .timeline-item:nth-child(1) { animation-delay: 0.2s; }
-        .timeline-item:nth-child(2) { animation-delay: 0.4s; }
-        .timeline-item:nth-child(3) { animation-delay: 0.6s; }
-        .timeline-item:nth-child(4) { animation-delay: 0.8s; }
-        .timeline-item:nth-child(5) { animation-delay: 1.0s; }
         
         .timeline-item.left {
             text-align: right;
@@ -95,7 +245,7 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 50%;
             border: 4px solid #0a0a0a;
-            z-index: 2;
+            z-index: 10;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -116,18 +266,27 @@
         .timeline-node.active {
             transform: scale(1.3);
             box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.8); }
+            50% { box-shadow: 0 0 30px rgba(102, 126, 234, 1), 0 0 40px rgba(102, 126, 234, 0.5); }
         }
         
         .project-card {
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 2rem;
             border: 1px solid rgba(102, 126, 234, 0.1);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
             max-width: 500px;
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
         
         .timeline-item.left .project-card {
@@ -150,9 +309,299 @@
         }
         
         .project-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(102, 126, 234, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px) scale(1.02) rotateX(5deg);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 20px rgba(102, 126, 234, 0.2),
+                0 0 60px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Project Screenshots */
+        .project-preview {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .project-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover .project-preview img {
+            transform: scale(1.05);
+        }
+
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            backdrop-filter: blur(2px);
+        }
+
+        .project-card:hover .preview-overlay {
+            opacity: 1;
+        }
+
+        /* Project Video Preview */
+        .project-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(102, 126, 234, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .play-button:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #667eea;
+            white-space: nowrap;
+            animation: typewriter 4s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #667eea; }
+        }
+
+        /* 3D Effects */
+        .project-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) scale(1.02) rotateX(5deg);
+            border-color: rgba(102, 126, 234, 0.4);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 20px rgba(102, 126, 234, 0.2),
+                0 0 60px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Enhanced Timeline */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #667eea, #764ba2, transparent);
+            transform: translateX(-50%);
+            animation: timelineGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes timelineGlow {
+            0% { box-shadow: 0 0 5px rgba(102, 126, 234, 0.3); }
+            100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.8), 0 0 30px rgba(102, 126, 234, 0.4); }
+        }
+
+        /* Animated Counters */
+        .metric-value.counter {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Contact Modal */
+        .contact-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .contact-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .contact-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-modal.active .contact-content {
+            transform: scale(1);
+        }
+
+        .contact-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            color: #e1e5e9;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #667eea;
+        }
+
+        /* Filter System */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 25px;
+            color: #9ca3af;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            border-color: rgba(102, 126, 234, 0.4);
+        }
+
+        .timeline-item.hidden {
+            display: none;
+        }
+
+        /* Sound indicator */
+        .sound-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .sound-toggle:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .sound-toggle.muted {
+            opacity: 0.5;
         }
         
         .project-header {
@@ -174,13 +623,12 @@
             color: #667eea;
             font-weight: 600;
         }
-        
 
-        
         .project-description {
             color: #9ca3af;
             margin-bottom: 1.5rem;
             font-size: 0.95rem;
+            line-height: 1.6;
         }
         
         .tech-stack {
@@ -198,6 +646,12 @@
             font-size: 0.8rem;
             font-weight: 500;
             border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .tech-tag:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
         }
         
         .project-actions {
@@ -212,10 +666,30 @@
             font-size: 0.85rem;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
             text-align: center;
             flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .action-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
         
         .btn-primary {
@@ -224,8 +698,8 @@
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
         
         .btn-secondary {
@@ -237,17 +711,18 @@
         .btn-secondary:hover {
             background: rgba(156, 163, 175, 0.1);
             color: #f1f5f9;
+            transform: translateY(-3px);
         }
         
         .expanded-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.4s ease;
             margin-top: 1rem;
         }
         
         .expanded-content.active {
-            max-height: 200px;
+            max-height: 300px;
         }
         
         .metrics {
@@ -255,9 +730,10 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
             padding: 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
             margin-bottom: 1rem;
+            backdrop-filter: blur(5px);
         }
         
         .metric {
@@ -290,6 +766,14 @@
         }
         
         @media (max-width: 768px) {
+            .nav-menu, .skills-badge {
+                display: none;
+            }
+
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
             .timeline::before {
                 left: 2rem;
             }
@@ -322,16 +806,100 @@
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Mouse Glow Effect -->
+    <div class="mouse-glow" id="mouseGlow"></div>
+
+    <!-- Sound Toggle -->
+    <div class="sound-toggle" id="soundToggle" onclick="toggleSound()">
+        <span id="soundIcon">🔊</span>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-content">
+            <button class="close-modal" onclick="closeContact()">&times;</button>
+            <h2 class="contact-title">Let's Connect!</h2>
+            <div class="contact-links">
+                <a href="mailto:your-email@example.com" class="contact-link">
+                    <span>📧</span>
+                    Email
+                </a>
+                <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">
+                    <span>💼</span>
+                    LinkedIn
+                </a>
+                <a href="https://github.com/yourusername" class="contact-link" target="_blank">
+                    <span>🐱</span>
+                    GitHub
+                </a>
+            </div>
+            <p style="color: #9ca3af; font-size: 0.9rem;">
+                Always excited to discuss new opportunities and innovative projects!
+            </p>
+        </div>
+    </div>
+
+    <!-- Particles Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Navigation Menu -->
+    <div class="nav-menu">
+        <button class="nav-item active" onclick="scrollToSection('header')">Home</button>
+        <button class="nav-item" onclick="scrollToSection('timeline')">Projects</button>
+        <button class="nav-item" onclick="openContact()">Contact</button>
+    </div>
+
+    <!-- Skills Badge -->
+    <div class="skills-badge">
+        <div class="skills-title">Tech Stack</div>
+        <div class="skill-item">
+            <span>React</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 95%"></div></div>
+        </div>
+        <div class="skill-item">
+            <span>TypeScript</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+        </div>
+        <div class="skill-item">
+            <span>AI/ML</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+        </div>
+        <div class="skill-item">
+            <span>3D/WebGL</span>
+            <div class="skill-bar"><div class="skill-progress" style="width: 80%"></div></div>
+        </div>
+    </div>
+
     <div class="container">
-        <div class="header">
-            <h1>Development Journey</h1>
+        <div class="header" id="header">
+            <h1><span class="typewriter">Development Journey</span></h1>
             <p>A timeline showcasing the evolution of my technical skills and project complexity over time</p>
         </div>
         
-        <div class="timeline">
-            <div class="timeline-item left">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="ai">AI/ML</button>
+            <button class="filter-btn" data-filter="web">Web Apps</button>
+            <button class="filter-btn" data-filter="mobile">Mobile</button>
+            <button class="filter-btn" data-filter="3d">3D/Games</button>
+        </div>
+        
+        <div class="timeline" id="timeline">
+            <div class="timeline-item left" data-category="ai,web">
                 <div class="timeline-node" data-project="grammarly-clone"></div>
                 <div class="project-card" onclick="toggleExpand(this)">
+                    <div class="project-preview">
+                        <img src="https://via.placeholder.com/500x200/1a1a1a/667eea?text=Grammarly+Clone+Demo" alt="Grammarly Clone Preview" loading="lazy">
+                        <div class="preview-overlay">
+                            <span>📝 Click to Expand</span>
+                        </div>
+                    </div>
                     <div class="project-header">
                         <div>
                             <h3 class="project-title">Grammarly Clone - AI Writing Assistant</h3>
@@ -348,21 +916,21 @@
                         <span class="tech-tag">Tailwind CSS</span>
                     </div>
                     <div class="project-actions">
-                        <a href="https://grammarly-clone-a9b31.web.app/" class="action-btn btn-primary" target="_blank">Launch App</a>
+                        <a href="https://grammarly-clone-3605e.web.app/" class="action-btn btn-primary" target="_blank">Launch App</a>
                         <a href="https://www.loom.com/share/85e60d84426f482ba2a80de3e48a844f?sid=0576ce41-cde9-4778-9bac-6806872c4278" class="action-btn btn-secondary" target="_blank">View Demo</a>
                     </div>
                     <div class="expanded-content">
                         <div class="metrics">
                             <div class="metric">
-                                <div class="metric-value">AI</div>
+                                <div class="metric-value counter" data-count="100">AI</div>
                                 <div class="metric-label">Powered</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">5</div>
+                                <div class="metric-value counter" data-count="5">5</div>
                                 <div class="metric-label">Analysis Types</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">Live</div>
+                                <div class="metric-value counter" data-count="99">Live</div>
                                 <div class="metric-label">Deployed</div>
                             </div>
                         </div>
@@ -370,9 +938,15 @@
                 </div>
             </div>
             
-            <div class="timeline-item right">
+            <div class="timeline-item right" data-category="ai,mobile">
                 <div class="timeline-node" data-project="gauntletapp"></div>
                 <div class="project-card" onclick="toggleExpand(this)">
+                    <div class="project-preview">
+                        <img src="https://via.placeholder.com/500x200/1a1a1a/667eea?text=GauntletApp+Mobile+Demo" alt="GauntletApp Preview" loading="lazy">
+                        <div class="preview-overlay">
+                            <span>📱 Click to Expand</span>
+                        </div>
+                    </div>
                     <div class="project-header">
                         <div>
                             <h3 class="project-title">GauntletApp - AI Food Stories Community</h3>
@@ -395,15 +969,15 @@
                     <div class="expanded-content">
                         <div class="metrics">
                             <div class="metric">
-                                <div class="metric-value">85%</div>
+                                <div class="metric-value counter" data-count="85">85%</div>
                                 <div class="metric-label">AI Accuracy</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">RAG</div>
+                                <div class="metric-value counter" data-count="100">RAG</div>
                                 <div class="metric-label">Powered</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">5.5K+</div>
+                                <div class="metric-value counter" data-count="5500">5.5K+</div>
                                 <div class="metric-label">Lines Code</div>
                             </div>
                         </div>
@@ -411,9 +985,15 @@
                 </div>
             </div>
             
-            <div class="timeline-item left">
+            <div class="timeline-item left" data-category="ai,web">
                 <div class="timeline-node" data-project="ai-email-manager"></div>
                 <div class="project-card" onclick="toggleExpand(this)">
+                    <div class="project-preview">
+                        <img src="https://via.placeholder.com/500x200/1a1a1a/667eea?text=AI+Email+Manager+Desktop" alt="AI Email Manager Preview" loading="lazy">
+                        <div class="preview-overlay">
+                            <span>🤖 Click to Expand</span>
+                        </div>
+                    </div>
                     <div class="project-header">
                         <div>
                             <h3 class="project-title">AI Email Manager</h3>
@@ -436,15 +1016,15 @@
                     <div class="expanded-content">
                         <div class="metrics">
                             <div class="metric">
-                                <div class="metric-value">3</div>
+                                <div class="metric-value counter" data-count="3">3</div>
                                 <div class="metric-label">AI Agents</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">70%</div>
+                                <div class="metric-value counter" data-count="70">70%</div>
                                 <div class="metric-label">Confidence</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">3x</div>
+                                <div class="metric-value counter" data-count="3">3x</div>
                                 <div class="metric-label">Faster</div>
                             </div>
                         </div>
@@ -452,9 +1032,15 @@
                 </div>
             </div>
             
-            <div class="timeline-item right">
+            <div class="timeline-item right" data-category="ai,web">
                 <div class="timeline-node" data-project="geneknow"></div>
                 <div class="project-card" onclick="toggleExpand(this)">
+                    <div class="project-preview">
+                        <img src="https://via.placeholder.com/500x200/1a1a1a/667eea?text=GeneKnow+Genomic+Analysis" alt="GeneKnow Preview" loading="lazy">
+                        <div class="preview-overlay">
+                            <span>🧬 Click to Expand</span>
+                        </div>
+                    </div>
                     <div class="project-header">
                         <div>
                             <h3 class="project-title">GeneKnow - AI Genomic Risk Assessment</h3>
@@ -477,15 +1063,15 @@
                     <div class="expanded-content">
                         <div class="metrics">
                             <div class="metric">
-                                <div class="metric-value">100%</div>
+                                <div class="metric-value counter" data-count="100">100%</div>
                                 <div class="metric-label">Local</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">Privacy</div>
+                                <div class="metric-value counter" data-count="100">Privacy</div>
                                 <div class="metric-label">First</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">11GB+</div>
+                                <div class="metric-value counter" data-count="11">11GB+</div>
                                 <div class="metric-label">Files</div>
                             </div>
                         </div>
@@ -493,9 +1079,15 @@
                 </div>
             </div>
             
-            <div class="timeline-item left">
+            <div class="timeline-item left" data-category="3d,web">
                 <div class="timeline-node" data-project="space-explorer-3d"></div>
                 <div class="project-card" onclick="toggleExpand(this)">
+                    <div class="project-preview">
+                        <img src="https://via.placeholder.com/500x200/1a1a1a/667eea?text=Space+Explorer+3D+Game" alt="Space Explorer 3D Preview" loading="lazy">
+                        <div class="preview-overlay">
+                            <span>🚀 Click to Expand</span>
+                        </div>
+                    </div>
                     <div class="project-header">
                         <div>
                             <h3 class="project-title">Space Explorer 3D - Multiplayer Game Engine</h3>
@@ -518,15 +1110,15 @@
                     <div class="expanded-content">
                         <div class="metrics">
                             <div class="metric">
-                                <div class="metric-value">3D</div>
+                                <div class="metric-value counter" data-count="100">3D</div>
                                 <div class="metric-label">Engine</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">60</div>
+                                <div class="metric-value counter" data-count="60">60</div>
                                 <div class="metric-label">FPS</div>
                             </div>
                             <div class="metric">
-                                <div class="metric-value">4P</div>
+                                <div class="metric-value counter" data-count="4">4P</div>
                                 <div class="metric-label">Multiplayer</div>
                             </div>
                         </div>
@@ -537,6 +1129,243 @@
     </div>
 
     <script>
+        // Global Variables
+        let soundEnabled = true;
+        
+        // Audio Context for Sound Effects
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(frequency = 800, duration = 100, type = 'sine') {
+            if (!soundEnabled) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.value = frequency;
+            oscillator.type = type;
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration / 1000);
+        }
+
+        // Sound Toggle
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            const toggle = document.getElementById('soundToggle');
+            
+            if (soundEnabled) {
+                icon.textContent = '🔊';
+                toggle.classList.remove('muted');
+                playSound(600, 150);
+            } else {
+                icon.textContent = '🔇';
+                toggle.classList.add('muted');
+            }
+        }
+
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                playSound(800, 200);
+            }, 1000);
+        });
+
+        // Particles Animation (existing code)
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: 0, y: 0 };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticle(x, y) {
+            return {
+                x: x || Math.random() * canvas.width,
+                y: y || Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 1,
+                alpha: Math.random() * 0.5 + 0.2,
+                color: `rgba(102, 126, 234, ${Math.random() * 0.5 + 0.2})`
+            };
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 50; i++) {
+                particles.push(createParticle());
+            }
+        }
+
+        function updateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach((particle, index) => {
+                // Move towards mouse
+                const dx = mouse.x - particle.x;
+                const dy = mouse.y - particle.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 100) {
+                    particle.vx += dx * 0.0001;
+                    particle.vy += dy * 0.0001;
+                }
+                
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                
+                // Boundary check
+                if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+                if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+                
+                // Draw particle
+                ctx.globalAlpha = particle.alpha;
+                ctx.fillStyle = particle.color;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw connections
+                particles.forEach((otherParticle, otherIndex) => {
+                    if (index !== otherIndex) {
+                        const dist = Math.sqrt(
+                            Math.pow(particle.x - otherParticle.x, 2) + 
+                            Math.pow(particle.y - otherParticle.y, 2)
+                        );
+                        
+                        if (dist < 80) {
+                            ctx.globalAlpha = 0.1;
+                            ctx.strokeStyle = 'rgba(102, 126, 234, 0.2)';
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particle.x, particle.y);
+                            ctx.lineTo(otherParticle.x, otherParticle.y);
+                            ctx.stroke();
+                        }
+                    }
+                });
+            });
+        }
+
+        function animate() {
+            updateParticles();
+            requestAnimationFrame(animate);
+        }
+
+        // Mouse tracking
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            
+            // Update mouse glow position
+            const mouseGlow = document.getElementById('mouseGlow');
+            mouseGlow.style.left = (e.clientX - 150) + 'px';
+            mouseGlow.style.top = (e.clientY - 150) + 'px';
+            mouseGlow.style.opacity = '1';
+        });
+
+        document.addEventListener('mouseleave', () => {
+            document.getElementById('mouseGlow').style.opacity = '0';
+        });
+
+        // Initialize
+        resizeCanvas();
+        initParticles();
+        animate();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        // Scroll-triggered animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    playSound(400 + Math.random() * 400, 100);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Navigation functions
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            playSound(600, 100);
+        }
+
+        // Contact Modal Functions
+        function openContact() {
+            document.getElementById('contactModal').classList.add('active');
+            playSound(800, 150);
+        }
+
+        function closeContact() {
+            document.getElementById('contactModal').classList.remove('active');
+            playSound(400, 100);
+        }
+
+        // Close modal on outside click
+        document.getElementById('contactModal').addEventListener('click', (e) => {
+            if (e.target.id === 'contactModal') {
+                closeContact();
+            }
+        });
+
+        // Filter System
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const filter = e.target.dataset.filter;
+                
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Filter timeline items
+                document.querySelectorAll('.timeline-item').forEach(item => {
+                    const categories = item.dataset.category.split(',');
+                    
+                    if (filter === 'all' || categories.includes(filter)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+                
+                playSound(700, 120);
+            });
+        });
+
+        // Enhanced project card functionality with sound
         function toggleExpand(card) {
             const expandedContent = card.querySelector('.expanded-content');
             const isActive = expandedContent.classList.contains('active');
@@ -555,8 +1384,86 @@
                 expandedContent.classList.add('active');
                 const node = card.parentElement.querySelector('.timeline-node');
                 node.classList.add('active');
+                
+                // Add sparkle effect
+                createSparkles(node);
+                playSound(900, 200);
+                
+                // Animate counters
+                setTimeout(() => animateCounters(card), 300);
+            } else {
+                playSound(500, 100);
             }
         }
+
+        // Animated Counters
+        function animateCounters(card) {
+            const counters = card.querySelectorAll('.counter');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.dataset.count) || 0;
+                const text = counter.textContent;
+                
+                if (target > 0) {
+                    let current = 0;
+                    const increment = target / 30;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        counter.textContent = Math.floor(current) + (text.includes('%') ? '%' : '');
+                    }, 50);
+                }
+            });
+        }
+
+        function createSparkles(element) {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.style.cssText = `
+                        position: absolute;
+                        width: 4px;
+                        height: 4px;
+                        background: #667eea;
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 1000;
+                        animation: sparkle 1s ease-out forwards;
+                    `;
+                    
+                    const rect = element.getBoundingClientRect();
+                    sparkle.style.left = (rect.left + Math.random() * rect.width) + 'px';
+                    sparkle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+                    
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => sparkle.remove(), 1000);
+                }, i * 100);
+            }
+        }
+
+        // Add sparkle animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkle {
+                0% {
+                    transform: scale(0) rotate(0deg);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1) rotate(180deg);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: scale(0) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
         
         // Add click handlers to timeline nodes
         document.querySelectorAll('.timeline-node').forEach(node => {
@@ -564,6 +1471,20 @@
                 e.stopPropagation();
                 const card = node.parentElement.querySelector('.project-card');
                 toggleExpand(card);
+            });
+        });
+
+        // Add sound effects to tech tags
+        document.querySelectorAll('.tech-tag').forEach(tag => {
+            tag.addEventListener('mouseenter', () => {
+                playSound(1000 + Math.random() * 200, 50);
+            });
+        });
+
+        // Add sound effects to buttons
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                playSound(800, 150);
             });
         });
     </script>
