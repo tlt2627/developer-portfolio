@@ -608,41 +608,209 @@
         .timeline-item.hidden {
             display: none;
         }
-        
+
+        /* Experience Section */
+        .experience-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .experience-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .experience-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .experience-header p {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .resume-container {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .resume-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .resume-section:hover {
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .education-item, .experience-item, .project-item {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .education-item:last-child, .experience-item:last-child, .project-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .item-subtitle {
+            font-size: 1rem;
+            color: #667eea;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-location {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .item-date {
+            font-size: 0.9rem;
+            color: #667eea;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .item-details {
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .achievements {
+            list-style: none;
+            padding: 0;
+        }
+
+        .achievements li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .achievements li::before {
+            content: '▸';
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .gpa {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-category {
+            background: rgba(102, 126, 234, 0.08);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .skill-category-title {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-list {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Project Styles (restored) */
         .project-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 1rem;
         }
-        
+
         .project-title {
             font-size: 1.5rem;
             font-weight: 700;
             color: #f1f5f9;
             margin-bottom: 0.5rem;
         }
-        
+
         .project-date {
             font-size: 0.9rem;
             color: #667eea;
             font-weight: 600;
         }
-        
+
         .project-description {
             color: #9ca3af;
             margin-bottom: 1.5rem;
             font-size: 0.95rem;
             line-height: 1.6;
         }
-        
+
         .tech-stack {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
             margin-bottom: 1.5rem;
         }
-        
+
         .tech-tag {
             background: rgba(102, 126, 234, 0.1);
             color: #8b9cf7;
@@ -658,12 +826,12 @@
             background: rgba(102, 126, 234, 0.2);
             transform: translateY(-2px);
         }
-        
+
         .project-actions {
             display: flex;
             gap: 0.75rem;
         }
-        
+
         .action-btn {
             padding: 0.6rem 1.2rem;
             border: none;
@@ -696,40 +864,40 @@
             width: 300px;
             height: 300px;
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
-        
+
         .btn-secondary {
             background: transparent;
             color: #9ca3af;
             border: 1px solid rgba(156, 163, 175, 0.3);
         }
-        
+
         .btn-secondary:hover {
             background: rgba(156, 163, 175, 0.1);
             color: #f1f5f9;
             transform: translateY(-3px);
         }
-        
+
         .expanded-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease;
             margin-top: 1rem;
         }
-        
+
         .expanded-content.active {
             max-height: 300px;
         }
-        
+
         .metrics {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -740,25 +908,25 @@
             margin-bottom: 1rem;
             backdrop-filter: blur(5px);
         }
-        
+
         .metric {
             text-align: center;
         }
-        
+
         .metric-value {
             font-size: 1.2rem;
             font-weight: 700;
             color: #667eea;
             margin-bottom: 0.25rem;
         }
-        
+
         .metric-label {
             font-size: 0.7rem;
             color: #9ca3af;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -769,7 +937,7 @@
                 transform: translateY(0);
             }
         }
-        
+
         @media (max-width: 768px) {
             .nav-menu, .skills-badge {
                 display: none;
@@ -806,6 +974,24 @@
             
             .container {
                 padding: 1rem;
+            }
+
+            .experience-section {
+                padding: 2rem 1rem;
+            }
+
+            .experience-header h2 {
+                font-size: 2rem;
+            }
+
+            .item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .item-date {
+                align-self: flex-end;
             }
         }
     </style>
@@ -856,6 +1042,7 @@
     <div class="nav-menu">
         <button class="nav-item active" onclick="scrollToSection('header')">Home</button>
         <button class="nav-item" onclick="scrollToSection('timeline')">Projects</button>
+        <button class="nav-item" onclick="scrollToSection('experience')">Experience</button>
         <button class="nav-item" onclick="openContact()">Contact</button>
     </div>
 
@@ -893,6 +1080,241 @@
             <button class="filter-btn" data-filter="web">Web Apps</button>
             <button class="filter-btn" data-filter="mobile">Mobile</button>
             <button class="filter-btn" data-filter="3d">3D/Games</button>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="experience-section" id="experience" style="display: none;">
+            <div class="experience-header">
+                <h2>Professional Experience & Education</h2>
+                <p>Petroleum Engineering background with expertise in machine learning, data analytics, and reservoir engineering</p>
+            </div>
+
+            <div class="resume-container">
+                <!-- Education Section -->
+                <div class="resume-section">
+                    <h3 class="section-title">🎓 Education</h3>
+                    <div class="education-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">The University of Texas at Austin</div>
+                                <div class="item-subtitle">Bachelor of Science in Petroleum Engineering</div>
+                                <div class="item-location">Sustainable Energy Minor • <span class="gpa">Major GPA: 3.54/4.00</span></div>
+                            </div>
+                            <div class="item-date">Spring 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Experience Section -->
+                <div class="resume-section">
+                    <h3 class="section-title">💼 Professional Experience</h3>
+                    
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">B&W Resources</div>
+                                <div class="item-subtitle">Reservoir Engineer Intern</div>
+                                <div class="item-location">Houston, Texas</div>
+                            </div>
+                            <div class="item-date">Summer 2024</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Ranked operators by EUR within tiered acreage using ComboCurve's DCA for circa 10,000 wells</li>
+                                <li>Created tiered acreage utilizing Pore Pressure and OOIP maps high grading key locations for potential non-op investment opportunities</li>
+                                <li>Created zonal assignments for 1500 DST and Production Tests in the Bakken using Python</li>
+                                <li>Produced 22+ economics reports and generated decline curves for over 70,000 wells, increasing deal evaluations</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">Pan American Energy</div>
+                                <div class="item-subtitle">Machine Learning / Data Engineer Intern</div>
+                                <div class="item-location">Buenos Aires, Argentina</div>
+                            </div>
+                            <div class="item-date">Summer 2023</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Automated diagnosis saving company 100+ hours and recommendations on wells operating parameters guided by company specific rules</li>
+                                <li>Development and analysis of well reserves to optimize perforation selection from individual wells</li>
+                                <li>Successfully evaluated geologic worth of assets over $20,000 in Comodoro Rivadavia</li>
+                                <li>Gained hands-on experience by visiting drilling rigs, deepening understanding of on-site operations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Engineering Projects Section -->
+                <div class="resume-section">
+                    <h3 class="section-title">🏗️ Engineering Projects & Achievements</h3>
+                    
+                    <div class="project-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">2024 Geothermal Collegiate Contest</div>
+                                <div class="item-subtitle">Team Lead</div>
+                            </div>
+                            <div class="item-date">Fall 2024</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Commissioned with developing a real-world geothermal solution for UT Austin</li>
+                                <li>Assigned Team Lead configuring group meetings and project plan</li>
+                                <li>Developing a strategic plan to achieve zero emissions for UT, transitioning Austin Energy Plant to a geothermal-based energy system</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">4th Place – 2023 PGE Energy AI Hackathon</div>
+                                <div class="item-subtitle">Team Captain</div>
+                            </div>
+                            <div class="item-date">Spring 2023</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Improved data integrity by iteratively imputing missing data using a random forest algorithm for over 30 features</li>
+                                <li>Team Captain charged with programming predictive machine learning outline</li>
+                                <li>Decided best predictive machine learning model as neural networks and generated code's cardinal details</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">2022 PGE Energy AI Hackathon</div>
+                            </div>
+                            <div class="item-date">Spring 2022</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Placed 16th out of 21 teams</li>
+                                <li>Engineered most effective variables for decision tree predictive machine learning model</li>
+                                <li>Analyzed mass data and produced slides to point out all main conclusions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications Section -->
+                <div class="resume-section">
+                    <h3 class="section-title">🏆 Certifications & Training</h3>
+                    
+                    <div class="project-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">Enverus Certified Specialist Certificate</div>
+                            </div>
+                            <div class="item-date">Fall 2024</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Identified best producing intervals and best normalization of type curves in lateral length as well as proppant and fluid intensity</li>
+                                <li>Analyzed the drilling and permitting activity around a given asset position</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">ComboCurve Deal Evaluation Certificate</div>
+                            </div>
+                            <div class="item-date">Fall 2024</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Completed ComboCurve Deal Evaluation Course, enhancing skills in PDP evaluation, forecasts, and energy transaction analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">Code Academy Python 3</div>
+                            </div>
+                            <div class="item-date">Fall 2021</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Ability to utilize different tools for writing and running Python code</li>
+                                <li>Understand and apply core programming concepts like data structures, conditionals, loops, variables, and functions</li>
+                                <li>Identify core aspects of programming and features of the Python language</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills & Interests Section -->
+                <div class="resume-section">
+                    <h3 class="section-title">🛠️ Technical Skills & Interests</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <div class="skill-category-title">Software & Tools</div>
+                            <div class="skill-list">Enverus, Combo Curve, Python, MS Excel, Word, PowerPoint, Outlook</div>
+                        </div>
+                        <div class="skill-category">
+                            <div class="skill-category-title">Specializations</div>
+                            <div class="skill-list">Reservoir Engineering, Machine Learning, Data Analytics, Fracture Simulations</div>
+                        </div>
+                        <div class="skill-category">
+                            <div class="skill-category-title">Technical Interests</div>
+                            <div class="skill-list">Reservoir Simulations, AI/ML Applications, Energy Transition, Geothermal Energy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Organizations Section -->
+                <div class="resume-section">
+                    <h3 class="section-title">🤝 Professional Organizations</h3>
+                    <div class="experience-item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">Society of Petroleum Engineers (SPE)</div>
+                                <div class="item-subtitle">Active Member</div>
+                            </div>
+                            <div class="item-date">Spring 2021 - Present</div>
+                        </div>
+                        <div class="item-details">
+                            <ul class="achievements">
+                                <li>Assisted board in recruitment of students</li>
+                                <li>Cooperated with ambassadors to setup special events</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div class="resume-section">
+                    <h3 class="section-title">📞 Contact Information</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <div class="skill-category-title">Email</div>
+                            <div class="skill-list">tristan.rajnath@yahoo.com</div>
+                        </div>
+                        <div class="skill-category">
+                            <div class="skill-category-title">Phone</div>
+                            <div class="skill-list">(737) 336-9868</div>
+                        </div>
+                        <div class="skill-category">
+                            <div class="skill-category-title">LinkedIn</div>
+                            <div class="skill-list">linkedin.com/in/tristanrajnath</div>
+                        </div>
+                        <div class="skill-category">
+                            <div class="skill-category-title">Status</div>
+                            <div class="skill-list">U.S. Citizen</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="timeline" id="timeline">
@@ -1272,9 +1694,37 @@
 
         // Navigation functions
         function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({ 
-                behavior: 'smooth' 
-            });
+            const timelineSection = document.getElementById('timeline');
+            const experienceSection = document.getElementById('experience');
+            
+            // Hide all sections first
+            timelineSection.style.display = 'block';
+            experienceSection.style.display = 'none';
+            
+            if (sectionId === 'experience') {
+                // Show experience section, hide timeline
+                experienceSection.style.display = 'block';
+                timelineSection.style.display = 'none';
+                
+                // Scroll to experience section
+                experienceSection.scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            } else if (sectionId === 'timeline') {
+                // Show timeline, hide experience
+                timelineSection.style.display = 'block';
+                experienceSection.style.display = 'none';
+                
+                // Scroll to timeline
+                timelineSection.scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            } else {
+                // For header and other sections, show timeline by default
+                document.getElementById(sectionId).scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
             
             // Update active nav item
             document.querySelectorAll('.nav-item').forEach(item => {
