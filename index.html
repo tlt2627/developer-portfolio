@@ -15,11 +15,62 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+            background: #0a0a0a;
             color: #f1f5f9;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Dramatic lighting effect from top right */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 80% 20%, 
+                rgba(102, 126, 234, 0.08) 0%,
+                rgba(118, 75, 162, 0.06) 15%,
+                rgba(156, 163, 175, 0.04) 30%,
+                rgba(75, 85, 99, 0.02) 50%,
+                transparent 70%
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Light rays effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -20%;
+            right: -20%;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(from 225deg at 80% 20%,
+                transparent 0deg,
+                rgba(102, 126, 234, 0.03) 10deg,
+                transparent 20deg,
+                rgba(156, 163, 175, 0.02) 30deg,
+                transparent 40deg,
+                rgba(102, 126, 234, 0.025) 50deg,
+                transparent 60deg,
+                rgba(118, 75, 162, 0.02) 70deg,
+                transparent 80deg,
+                rgba(156, 163, 175, 0.015) 90deg,
+                transparent 100deg
+            );
+            pointer-events: none;
+            z-index: 1;
+            animation: subtleRotate 60s linear infinite;
+        }
+
+        @keyframes subtleRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         body.home-view {
@@ -34,8 +85,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: 2;
             pointer-events: none;
+            opacity: 0.6;
         }
 
         .mouse-glow {
@@ -54,14 +106,14 @@
             position: fixed;
             top: 2rem;
             right: 2rem;
-            z-index: 100;
             display: flex;
             gap: 1rem;
             background: rgba(26, 26, 26, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 1rem;
-            border-radius: 50px;
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            z-index: 1001;
         }
 
         .nav-item {
@@ -140,14 +192,14 @@
             margin: 0 auto;
             padding: 2rem;
             position: relative;
-            z-index: 2;
+            z-index: 3;
         }
         
         .header {
             text-align: center;
             padding: 2rem;
             position: relative;
-            z-index: 2;
+            z-index: 3;
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -245,7 +297,10 @@
         
         .timeline {
             position: relative;
-            padding: 2rem 0;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            z-index: 3;
         }
         
         .timeline::before {
@@ -629,10 +684,12 @@
         /* Filter System */
         .filter-bar {
             display: flex;
-            gap: 1rem;
             justify-content: center;
+            gap: 1rem;
             margin-bottom: 3rem;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 3;
         }
 
         .filter-btn {
@@ -661,6 +718,8 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 4rem 2rem;
+            position: relative;
+            z-index: 3;
         }
 
         .experience-header {
