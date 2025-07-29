@@ -1074,7 +1074,7 @@
         </div>
         
         <!-- Filter Bar -->
-        <div class="filter-bar">
+        <div class="filter-bar" style="display: none;">
             <button class="filter-btn active" data-filter="all">All Projects</button>
             <button class="filter-btn" data-filter="ai">AI/ML</button>
             <button class="filter-btn" data-filter="web">Web Apps</button>
@@ -1317,7 +1317,7 @@
             </div>
         </div>
         
-        <div class="timeline" id="timeline">
+        <div class="timeline" id="timeline" style="display: none;">
             <div class="timeline-item left" data-category="ai,web">
                 <div class="timeline-node" data-project="grammarly-clone"></div>
                 <div class="project-card" onclick="toggleExpand(this)">
@@ -1664,64 +1664,108 @@
             document.getElementById('mouseGlow').style.opacity = '0';
         });
 
-        // Initialize
-        resizeCanvas();
-        initParticles();
-        animate();
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize particles
+            resizeCanvas();
+            initParticles();
+            animate();
 
+            // Initialize timeline items when timeline becomes visible
+            function initTimelineAnimations() {
+                const timelineItems = document.querySelectorAll('.timeline-item');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.animationDelay = '0.1s';
+                            entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                        }
+                    });
+                });
+
+                timelineItems.forEach(item => {
+                    observer.observe(item);
+                });
+            }
+
+            // Call timeline animations when projects tab is clicked
+            const projectsNavItem = document.querySelector('.nav-item[onclick*="timeline"]');
+            if (projectsNavItem) {
+                projectsNavItem.addEventListener('click', function() {
+                    setTimeout(initTimelineAnimations, 100); // Small delay to ensure timeline is visible
+                });
+            }
+
+            // Initialize filters when timeline is visible
+            function initFilters() {
+                const filterBtns = document.querySelectorAll('.filter-btn');
+                const timelineItems = document.querySelectorAll('.timeline-item');
+
+                filterBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        // Update active filter button
+                        filterBtns.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+
+                        const filter = this.dataset.filter;
+
+                        // Filter timeline items
+                        timelineItems.forEach(item => {
+                            if (filter === 'all' || item.dataset.category.includes(filter)) {
+                                item.classList.remove('hidden');
+                            } else {
+                                item.classList.add('hidden');
+                            }
+                        });
+                    });
+                });
+            }
+
+            // Initialize filters when projects tab is clicked
+            if (projectsNavItem) {
+                projectsNavItem.addEventListener('click', function() {
+                    setTimeout(initFilters, 100);
+                });
+            }
+
+            // Initialize counter animations
+            animateCounters();
+        });
+
+        // Window resize handler for canvas
         window.addEventListener('resize', () => {
             resizeCanvas();
             initParticles();
-        });
-
-        // Scroll-triggered animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.timeline-item').forEach(item => {
-            observer.observe(item);
         });
 
         // Navigation functions
         function scrollToSection(sectionId) {
             const timelineSection = document.getElementById('timeline');
             const experienceSection = document.getElementById('experience');
+            const filterBar = document.querySelector('.filter-bar');
             
-            // Hide all sections first
-            timelineSection.style.display = 'block';
+            // Reset all sections visibility
+            timelineSection.style.display = 'none';
             experienceSection.style.display = 'none';
+            filterBar.style.display = 'none';
             
-            if (sectionId === 'experience') {
-                // Show experience section, hide timeline
-                experienceSection.style.display = 'block';
-                timelineSection.style.display = 'none';
-                
-                // Scroll to experience section
-                experienceSection.scrollIntoView({ 
+            if (sectionId === 'header') {
+                // Home tab - show only header content, hide timeline and experience
+                document.getElementById('header').scrollIntoView({ 
                     behavior: 'smooth' 
                 });
             } else if (sectionId === 'timeline') {
-                // Show timeline, hide experience
+                // Projects tab - show timeline and filter bar
                 timelineSection.style.display = 'block';
-                experienceSection.style.display = 'none';
-                
-                // Scroll to timeline
+                filterBar.style.display = 'flex';
                 timelineSection.scrollIntoView({ 
                     behavior: 'smooth' 
                 });
-            } else {
-                // For header and other sections, show timeline by default
-                document.getElementById(sectionId).scrollIntoView({ 
+            } else if (sectionId === 'experience') {
+                // Experience tab - show experience section
+                experienceSection.style.display = 'block';
+                experienceSection.scrollIntoView({ 
                     behavior: 'smooth' 
                 });
             }
@@ -1747,28 +1791,6 @@
             if (e.target.id === 'contactModal') {
                 closeContact();
             }
-        });
-
-        // Filter System
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const filter = e.target.dataset.filter;
-                
-                // Update active button
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                
-                // Filter timeline items
-                document.querySelectorAll('.timeline-item').forEach(item => {
-                    const categories = item.dataset.category.split(',');
-                    
-                    if (filter === 'all' || categories.includes(filter)) {
-                        item.classList.remove('hidden');
-                    } else {
-                        item.classList.add('hidden');
-                    }
-                });
-            });
         });
 
         // Enhanced project card functionality
