@@ -155,16 +155,17 @@
         /* Skills Badge */
         .skills-badge {
             position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
             background: rgba(26, 26, 26, 0.95);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(102, 126, 234, 0.2);
             border-radius: 50px;
             padding: 1rem 2rem;
             display: flex;
-            gap: 1rem;
+            flex-direction: column;
+            gap: 0.8rem;
             z-index: 1000;
             opacity: 0;
             animation: fadeInUp 1s ease 1s forwards;
@@ -965,10 +966,16 @@
             }
 
             .skills-badge {
+                left: 1rem;
+                top: auto;
+                bottom: 2rem;
+                transform: none;
+                flex-direction: row;
                 flex-wrap: wrap;
-                justify-content: center;
+                justify-content: flex-start;
                 gap: 0.5rem;
                 padding: 0.8rem 1rem;
+                border-radius: 25px;
             }
 
             .skill-item {
